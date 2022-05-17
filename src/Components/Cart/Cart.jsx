@@ -13,10 +13,10 @@ const Cart = (props) => {
   const productCart = useSelector((state) => state.cart.productCart);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
 
-  let handleTotalAmount = '';
-  if (totalAmount > 1000) {
-    handleTotalAmount = `${Math.floor(totalAmount / 1000)}.${
-      totalAmount % 1000
+  let handleAmount = '';
+  if (totalAmount / 1000 > 1000) {
+    handleAmount = `${Math.floor(totalAmount / 1000 / 1000)}.${
+      (totalAmount / 1000) % 1000
     }`;
   }
 
@@ -91,9 +91,11 @@ const Cart = (props) => {
             ))}
 
             <div className={classes.amount}>
-              <div>Tổng tiền:</div>
+              <div>Tổng tiền: </div>
               <div>
-                {totalAmount > 1000 ? handleTotalAmount : totalAmount}
+                {Math.floor(totalAmount / 1000000) > 0
+                  ? handleAmount
+                  : totalAmount / 1000}
                 {totalAmount !== 0 && <span>.000đ</span>}
               </div>
             </div>

@@ -11,3 +11,14 @@ export async function getAllProducts() {
 
   return data;
 }
+
+export async function postCart(item) {
+  await axios
+    .post(`${BACKEND_DOMAIN}/Carts`, { ...item })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}

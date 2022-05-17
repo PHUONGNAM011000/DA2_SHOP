@@ -61,7 +61,7 @@ const ProductItem = ({ classes, card }) => {
             {card.name}
           </Typography>
           <div className={classes.textPrice}>
-            <Typography>{card.price}.000đ</Typography>
+            <Typography>{card.price / 1000}.000đ</Typography>
           </div>
         </CardContent>
         <CardActions>

@@ -21,7 +21,7 @@ const About = (props) => {
   const amount = useSelector((state) => state.product.amount);
   const size = useSelector((state) => state.size.value);
 
-  const addToCartHandler = (item) => {
+  const addToCartHandler = async (item) => {
     const newProduct = {
       id: item.id,
       name: item.name,
@@ -160,7 +160,9 @@ const About = (props) => {
         <div className={classes.info}>
           <h6>Áo cổ yếm Overiszed thêu hoa [ZA9]</h6>
           {props.product.length > 0 && (
-            <p className={classes.price}>{props.product[0].price}.000₫</p>
+            <p className={classes.price}>
+              {props.product[0].price / 1000}.000₫
+            </p>
           )}
           <div className={classes.size}>
             <SelectSize />
