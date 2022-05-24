@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionsLogout } from '../../store/logoutSlice';
 import { useHistory } from 'react-router-dom';
 import BackDrop from '../../Components/UI/BackDrop/BackDrop';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -116,6 +117,14 @@ export default function Register() {
       handleOpen();
 
       setTimeout(() => {
+        axios.post(
+          'https://backendfashionstore.azurewebsites.net/api/Users/Register',
+          {
+            name: fullName,
+            email,
+            password,
+          }
+        );
         history.push('/login');
         dispatch(actionsLogout.clearLogout());
       }, 1500);

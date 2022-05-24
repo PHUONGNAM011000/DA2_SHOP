@@ -11,10 +11,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { actionsCart } from '../../../../store/cartSlice';
+import { useTranslation } from 'react-i18next';
 
 const ProductItem = ({ classes, card }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const addToCartHandler = () => {
     dispatch(actionsCart.openCart());
@@ -72,7 +74,7 @@ const ProductItem = ({ classes, card }) => {
             fullWidth={true}
             onClick={addToCartHandler}
           >
-            Thêm vào giỏ hàng
+            {t('addButtonCart')}
           </Button>
         </CardActions>
       </Card>

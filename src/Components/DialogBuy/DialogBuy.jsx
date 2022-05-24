@@ -4,8 +4,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ClearIcon from '@material-ui/icons/Clear';
+import { useTranslation } from 'react-i18next';
 
 export default function DialogBuy(props) {
+  const { t } = useTranslation();
+
   return (
     <div>
       <Dialog open={true} maxWidth="lg">
@@ -18,7 +21,7 @@ export default function DialogBuy(props) {
               color: '#0E4861',
             }}
           >
-            <span>Giao hàng</span>
+            <span>{t('delivery')}</span>
             <ClearIcon
               style={{ cursor: 'pointer' }}
               onClick={() => props.setDialogBuy(false)}
@@ -26,21 +29,10 @@ export default function DialogBuy(props) {
           </div>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Tất cả các đơn đặt hàng được ship trực tiếp đối với đơn hàng nội
-            thành và qua chuyển phát nhanh.
-          </DialogContentText>
-          <DialogContentText>
-            Tất cả các đơn đặt hàng được ship trực tiếp đối với đơn hàng nội
-            thành và qua chuyển phát nhanh.
-          </DialogContentText>
-          <DialogContentText>
-            Đối với giao hàng tỉnh giá sẽ được tính theo số lượng sản phẩm: 40k
-            cho đơn hàng có 1 sản phẩm và +10k cho 1 sản phẩm tiếp theo
-          </DialogContentText>
-          <DialogContentText>
-            Tất cả các đơn hàng đều được gửi bằng hình thức chuyển phát nhanh.
-          </DialogContentText>
+          <DialogContentText>{t('titleDelivery1')}</DialogContentText>
+          <DialogContentText>{t('titleDelivery2')}</DialogContentText>
+          <DialogContentText>{t('titleDelivery3')}</DialogContentText>
+          <DialogContentText>{t('titleDelivery4')}</DialogContentText>
           <div
             style={{
               fontSize: '1.25em',
@@ -48,16 +40,11 @@ export default function DialogBuy(props) {
               color: '#0E4861',
             }}
           >
-            <span>Đổi trả</span>
+            <span>{t('lie')}</span>
           </div>
 
-          <DialogContentText>
-            Các mặt hàng được đổi lại trong vòng 24h kể từ lúc nhận hàng và tình
-            trạng hàng phải giống như lúc giao hàng.
-          </DialogContentText>
-          <DialogContentText>
-            Sản phẩm giảm giá sẽ có chính sách đổi trả riêng
-          </DialogContentText>
+          <DialogContentText>{t('titleLie1')}</DialogContentText>
+          <DialogContentText>{t('titleLie2')}</DialogContentText>
           <div
             style={{
               fontSize: '1.25em',
@@ -65,16 +52,14 @@ export default function DialogBuy(props) {
               color: '#0E4861',
             }}
           >
-            <span>Hỗ trợ</span>
+            <span>{t('mutual')}</span>
           </div>
-          <DialogContentText>
-            Hãy cho chúng tôi biết bạn cần gì hoặc muốn góp ý thêm cho Akyo Shop
-          </DialogContentText>
+          <DialogContentText>{t('titleMutual')}</DialogContentText>
           <DialogContentText>
             Email: akyoShop.shop2717@gmail.com
           </DialogContentText>
           <DialogContentText>
-            Điện thoại: 01285460817 - 0866804578
+            {t('telephone')}: 01285460817 - 0866804578
           </DialogContentText>
         </DialogContent>
       </Dialog>

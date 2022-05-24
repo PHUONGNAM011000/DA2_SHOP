@@ -35,7 +35,7 @@ export default function SelectSize() {
       <Select value={size} onChange={handleChange} label="Age">
         <MenuItem value="S">S</MenuItem>
         <MenuItem value="M">M</MenuItem>
-        <MenuItem value="L">L</MenuItem>
+        {/* <MenuItem value="L">L</MenuItem> */}
       </Select>
     </FormControl>
   );

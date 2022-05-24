@@ -87,6 +87,7 @@ const NavBar = () => {
           <Badge
             badgeContent={qualityProduct}
             color="secondary"
+            overlap="rectangular"
             onClick={() => dispatch(actionsCart.openCart())}
           >
             <ShoppingCartIcon fontSize="large" className={classes.cart} />

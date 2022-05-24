@@ -77,7 +77,7 @@ const Cart = (props) => {
                       {item.sizeL || ''}
                     </div>
                     <div className={classes.price}>
-                      {item.quality} x {item.price}.000₫
+                      {item.quality} x {item.price / 1000}.000₫
                     </div>
                   </div>
                 </div>

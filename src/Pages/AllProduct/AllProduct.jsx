@@ -1,36 +1,14 @@
+import { Container, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Footer from '../../Components/Footer/Footer';
-import Hero from './Hero/Hero';
-import About from './About/About';
-import ListProduct from './ListProduct/ListProduct';
 import { useSelector } from 'react-redux';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { Typography } from '@material-ui/core';
+import Footer from '../../Components/Footer/Footer';
+import Search from '../../Components/UI/Search/SearchProduct';
+import SelectProduct from '../../Components/UI/Select/SelectProduct';
+import ListProduct from '../Home/ListProduct/ListProduct';
+import _ from 'lodash';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
-  heroContent: {
-    backgroundImage:
-      'url(https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    padding: theme.spacing(8, 0, 6),
-    color: 'white',
-    height: '300px',
-
-    '& h1': {
-      backgroundColor: 'rgba(0,0,0, 0.3)',
-    },
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
@@ -79,18 +57,57 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-around',
     marginBottom: '2rem',
   },
+  NavHero: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '8px 0',
+    margin: '16px 0',
+    borderBottom: '1px solid #ccc',
+    borderTop: '1px solid #ccc',
+  },
+  select: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
-export default function Home() {
+const AllProduct = () => {
   const classes = useStyles();
   const productHome = useSelector((state) => state.home.productHome);
+  const searchQuery = useSelector((state) => state.search.searchQuery);
+  const valueSelect = useSelector((state) => state.select.valueSelect);
+  let filtered = productHome;
+
+  if (searchQuery) {
+    filtered = [...filtered].filter((item) =>
+      item.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+    );
+  }
+
+  if (valueSelect === 'nameIncrease')
+    filtered = _.orderBy(filtered, ['name'], ['asc']);
+  else if (valueSelect === 'nameDecrease')
+    filtered = _.orderBy(filtered, ['name'], ['desc']);
+  else if (valueSelect === 'priceIncrease')
+    filtered = _.orderBy(filtered, ['price'], ['asc']);
+  else if (valueSelect === 'priceDecrease')
+    filtered = _.orderBy(filtered, ['price'], ['desc']);
 
   return (
-    <React.Fragment>
+    <>
       <main>
-        <Hero classes={classes} />
         <Container className={classes.cardGrid} maxWidth="md">
-          <About classes={classes} />
+          <section className={classes.NavHero}>
+            <h1>Tất cả Sản phẩm</h1>
+            <div className={classes.select}>
+              <p>Ưu tiên theo: </p>
+              <div className={classes.select}>
+                <SelectProduct />
+                <Search />
+              </div>
+            </div>
+          </section>
           {productHome.length === 0 && (
             <div
               style={{
@@ -121,11 +138,12 @@ export default function Home() {
               </div>
             </div>
           )}
-
-          <ListProduct dataProduct={productHome} classes={classes} />
+          <ListProduct dataProduct={filtered} classes={classes} />
         </Container>
       </main>
       <Footer />
-    </React.Fragment>
+    </>
   );
-}
+};
+
+export default AllProduct;

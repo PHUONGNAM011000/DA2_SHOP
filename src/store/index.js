@@ -5,6 +5,8 @@ import productReducer from './productSlice';
 import loginReducer from './loginSlice';
 import logoutReducer from './logoutSlice';
 import sizeReducer from './sizeSlice';
+import searchReducer from './searchSlice';
+import selectReducer from './selectSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
     login: loginReducer,
     logout: logoutReducer,
     size: sizeReducer,
+    search: searchReducer,
+    select: selectReducer,
   },
 });
 

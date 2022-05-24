@@ -12,6 +12,7 @@ import Cart from './Components/Cart/Cart';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { actionsHome } from './store/homeSlice';
+import AllProduct from './Pages/AllProduct/AllProduct';
 
 function App() {
   const openCart = useSelector((state) => state.cart.openCart);
@@ -48,6 +49,9 @@ function App() {
         </Route>
         <Route path="/product/:productId">
           <Product />
+        </Route>
+        <Route path="/all-product">
+          <AllProduct />
         </Route>
         <Route path="/demo">
           <Demo />

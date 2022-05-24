@@ -7,6 +7,7 @@ import { actionsProduct } from '../../../store/productSlice';
 import { actionsCart } from '../../../store/cartSlice';
 import DialogBuy from '../../../Components/DialogBuy/DialogBuy';
 import SelectSize from '../../../Components/UI/Select/SelectSize';
+import { useTranslation } from 'react-i18next';
 
 const About = (props) => {
   const [dialogBuy, setDialogBuy] = useState(false);
@@ -20,6 +21,7 @@ const About = (props) => {
   const liked = useSelector((state) => state.product.liked);
   const amount = useSelector((state) => state.product.amount);
   const size = useSelector((state) => state.size.value);
+  const { t } = useTranslation();
 
   const addToCartHandler = async (item) => {
     const newProduct = {
@@ -34,7 +36,7 @@ const About = (props) => {
 
     if (size === 'S') newProduct.sizeS = 'S';
 
-    if (size === 'L') newProduct.sizeL = 'L';
+    // if (size === 'L') newProduct.sizeL = 'L';
 
     dispatch(actionsCart.openCart());
     dispatch(actionsCart.addToCartWithQuantity(newProduct));
@@ -158,7 +160,7 @@ const About = (props) => {
           )}
         </div>
         <div className={classes.info}>
-          <h6>Áo cổ yếm Overiszed thêu hoa [ZA9]</h6>
+          <h6>{props.product[0].name}</h6>
           {props.product.length > 0 && (
             <p className={classes.price}>
               {props.product[0].price / 1000}.000₫
@@ -193,7 +195,7 @@ const About = (props) => {
               className={classes.add}
               onClick={() => addToCartHandler(props.product[0])}
             >
-              THÊM VÀO GIỎ HÀNG
+              {t('addButtonCart')}
             </button>
             <div className={classes.icon}>
               {liked ? (
@@ -208,14 +210,12 @@ const About = (props) => {
             </div>
           </div>
           <div className={classes.description}>
-            <span style={{ marginRight: '1rem' }}>
-              Hướng dẫn chọn Size và bảo quản
-            </span>
-            <span onClick={() => setDialogBuy(true)}>Mua và đổi trả</span>
+            <span style={{ marginRight: '1rem' }}>{t('descSize')}</span>
+            <span onClick={() => setDialogBuy(true)}>{t('titleBuy')}</span>
           </div>
           <div>
             <p>
-              Danh mục: <span>ÁO</span>
+              {t('category')}: <span>ÁO</span>
             </p>
           </div>
         </div>
