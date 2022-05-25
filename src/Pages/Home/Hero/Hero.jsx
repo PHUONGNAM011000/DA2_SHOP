@@ -1,9 +1,11 @@
 import { Button, Container, Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 const Hero = ({ classes }) => {
   const { t } = useTranslation();
+  const isLogin = useSelector((state) => state.home.isLogin);
 
   return (
     <div className={classes.heroContent}>
@@ -13,19 +15,23 @@ const Hero = ({ classes }) => {
         </Typography>
         <div className={classes.heroButtons}>
           <Grid container spacing={2} justifyContent="center">
-            <Grid item>
-              <Button variant="contained" color="primary" href="/login">
-                {t('login')}
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" href="/register">
-                {t('logout')}
-              </Button>
-            </Grid>
+            {!isLogin && (
+              <>
+                <Grid item>
+                  <Button variant="contained" color="primary" href="/login">
+                    {t('login')}
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" color="primary" href="/register">
+                    {t('logout')}
+                  </Button>
+                </Grid>
+              </>
+            )}
             <Grid item>
               <Button
-                variant="contained" 
+                variant="contained"
                 color="secondary"
                 href="/all-product"
                 fullWidth={true}

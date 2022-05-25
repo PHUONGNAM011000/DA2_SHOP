@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionsSize } from '../../../store/sizeSlice';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -20,6 +21,7 @@ export default function SelectSize() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const size = useSelector((state) => state.size.value);
+  const { t } = useTranslation();
 
   const handleChange = (e) => {
     dispatch(actionsSize.sizeChanged(e.target.value));
@@ -31,7 +33,7 @@ export default function SelectSize() {
       className={classes.formControl}
       fullWidth={true}
     >
-      <InputLabel>Size</InputLabel>
+      <InputLabel>{t('size')}</InputLabel>
       <Select value={size} onChange={handleChange} label="Age">
         <MenuItem value="S">S</MenuItem>
         <MenuItem value="M">M</MenuItem>

@@ -3,8 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -14,6 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import BackDrop from '../../Components/UI/BackDrop/BackDrop';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionsLogin } from '../../store/loginSlice';
+import axios from 'axios';
+import { actionsHome } from '../../store/homeSlice';
 
 function Copyright() {
   return (
@@ -74,18 +76,85 @@ const Login = () => {
   const classes = useStyles();
   let history = useHistory();
   const [openBackDrop, setOpenBackDrop] = useState(false);
+  const dispatch = useDispatch();
+  const email = useSelector((state) => state.login.email);
+  const password = useSelector((state) => state.login.password);
+  const errorEmptyEmail = useSelector((state) => state.login.errorEmptyEmail);
+  const errorEmptyPassword = useSelector(
+    (state) => state.login.errorEmptyPassword
+  );
+  const errorEmail = useSelector((state) => state.login.errorEmail);
+  const errorPassword = useSelector((state) => state.login.errorPassword);
+
+  const errorLogin = useSelector((state) => state.login.errorLogin);
 
   const handleOpen = () => {
     setOpenBackDrop(true);
   };
 
-  const submitHandler = (e) => {
+  const handleClose = () => {
+    setOpenBackDrop(false);
+  };
+
+  const emailChangeHandler = (value) => {
+    dispatch(actionsLogin.emailChanged(value));
+  };
+
+  const passwordChangeHandler = (value) => {
+    dispatch(actionsLogin.passwordChanged(value));
+  };
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    handleOpen(true);
-    setTimeout(() => {
-      history.push('/home');
-    }, 1000);
+    const validateEmail = (email) => {
+      return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+      );
+    };
+
+    const validatePassword = password.length > 6;
+
+    if (email === '') {
+      dispatch(actionsLogin.setErrorEmptyEmail());
+    } else if (!validateEmail(email)) dispatch(actionsLogin.setErrorEmail());
+
+    if (password === '') {
+      dispatch(actionsLogin.setErrorEmptyPassword());
+    } else if (!validatePassword) {
+      dispatch(actionsLogin.setErrorPassword());
+    }
+
+    if (
+      validateEmail(email) &&
+      validatePassword &&
+      email !== '' &&
+      password !== ''
+    ) {
+      try {
+        const response = await axios.get(
+          `https://backendfashionstore.azurewebsites.net/api/Users/Login?email=${email}&password=${password}&rememberme=false`,
+          {
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
+
+        if (response.status === 200) {
+          handleOpen();
+          setTimeout(() => {
+            history.push('/home');
+            dispatch(actionsLogin.clearLogin());
+            dispatch(actionsHome.setIsLogin());
+          }, 1000);
+        }
+      } catch (e) {
+        handleOpen();
+        setTimeout(() => {
+          dispatch(actionsLogin.setErrorLogin());
+          handleClose();
+        }, 1000);
+      }
+    }
   };
 
   return (
@@ -104,6 +173,7 @@ const Login = () => {
             </Typography>
             <form className={classes.form} onSubmit={submitHandler}>
               <TextField
+                error={errorEmail || errorEmptyEmail}
                 variant="outlined"
                 margin="normal"
                 required
@@ -113,8 +183,15 @@ const Login = () => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                value={email}
+                onChange={(e) => emailChangeHandler(e.target.value)}
+                helperText={
+                  (errorEmptyEmail && 'Bạn chưa nhập Email') ||
+                  (errorEmail && 'Email không hợp lệ !!!')
+                }
               />
               <TextField
+                error={errorEmptyPassword || errorPassword}
                 variant="outlined"
                 margin="normal"
                 required
@@ -124,11 +201,18 @@ const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={(e) => passwordChangeHandler(e.target.value)}
+                helperText={
+                  (errorEmptyPassword && 'Bạn chưa nhập Mật khẩu') ||
+                  (errorPassword && 'Mật khẩu phải lớn hơn 6 kí tự !!!')
+                }
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              {errorLogin && (
+                <p style={{ marginTop: '8px', color: 'red' }}>
+                  Tài khoản không hợp lệ !!!
+                </p>
+              )}
               <Button
                 type="submit"
                 fullWidth

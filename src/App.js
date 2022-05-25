@@ -1,7 +1,7 @@
 import './App.css';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from './Pages/Home/Home';
 import Product from './Pages/Product/Product';
 import Demo from './demo';
@@ -16,6 +16,7 @@ import AllProduct from './Pages/AllProduct/AllProduct';
 
 function App() {
   const openCart = useSelector((state) => state.cart.openCart);
+  const isLogin = useSelector((state) => state.home.isLogin);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,8 +25,12 @@ function App() {
         'https://backendfashionstore.azurewebsites.net/api/Products'
       );
       let data = [];
-      for (let i = 0; i < response.data.length - 122; i++) {
-        data.push(response.data[i]);
+      for (let i = 0; i < response.data.length; i++) {
+        if (response.data[i].images.length > 0) {
+          data.push(response.data[i]);
+        } else {
+          console.log(response.data[i].id);
+        }
       }
       dispatch(actionsHome.getProduct(data));
     }
@@ -39,13 +44,13 @@ function App() {
       <NavBar />
       <Switch>
         <Route path="/login">
-          <Login />
+          {isLogin ? <Redirect to="/home" /> : <Login />}
         </Route>
         <Route path="/register">
           <Register />
         </Route>
         <Route path="/home">
-          <Home />
+          {isLogin ? <Home /> : <Redirect to="/login" />}
         </Route>
         <Route path="/product/:productId">
           <Product />
@@ -59,9 +64,7 @@ function App() {
         <Route path="/checkout">
           <Checkout />
         </Route>
-        <Route path="/">
-          <Home />
-        </Route>
+        <Redirect exact from="/" to="/login" />
       </Switch>
     </>
   );

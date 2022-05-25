@@ -59,14 +59,14 @@ const NavBar = () => {
         <Toolbar>
           <LocalMallIcon
             className={classes.icon}
-            onClick={() => history.push('/')}
+            onClick={() => history.push('/home')}
           />
           <Typography
             variant="h6"
             color="inherit"
             noWrap
             className={classes.nameShop}
-            onClick={() => history.push('/')}
+            onClick={() => history.push('/home')}
           >
             Akyo Shop
           </Typography>

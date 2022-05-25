@@ -12,7 +12,7 @@ export default function AddressForm() {
         Địa chỉ giao hàng
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={12}>
           <TextField
             required
             id="firstName"
@@ -22,15 +22,8 @@ export default function AddressForm() {
             autoComplete="given-name"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="lastName"
-            name="lastName"
-            label="Last name"
-            fullWidth
-            autoComplete="family-name"
-          />
+        <Grid item xs={12} sm={12}>
+          <TextField required id="gmail" name="gmail" label="Gmail" fullWidth />
         </Grid>
         <Grid item xs={12}>
           <TextField

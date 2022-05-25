@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
     padding: theme.spacing(8, 0, 6),
     color: 'white',
-    height: '300px',
+    height: '400px',
 
     '& h1': {
       backgroundColor: 'rgba(0,0,0, 0.3)',

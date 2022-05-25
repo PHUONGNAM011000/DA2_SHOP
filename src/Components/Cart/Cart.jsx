@@ -6,12 +6,14 @@ import Drawer from '@material-ui/core/Drawer';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionsCart } from '../../store/cartSlice';
+import { useTranslation } from 'react-i18next';
 
 const Cart = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const productCart = useSelector((state) => state.cart.productCart);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const { t } = useTranslation();
 
   let handleAmount = '';
   if (totalAmount / 1000 > 1000) {
@@ -36,7 +38,7 @@ const Cart = (props) => {
           <div className={classes.close}>
             <GrClose onClick={() => dispatch(actionsCart.closeCart())} />
           </div>
-          <div className={classes.card}>GIỎ HÀNG</div>
+          <div className={classes.card}>{t('cart')}</div>
         </div>
         {productCart.length === 0 && (
           <p className={classes.titleEmpty}>
@@ -91,7 +93,7 @@ const Cart = (props) => {
             ))}
 
             <div className={classes.amount}>
-              <div>Tổng tiền: </div>
+              <div>{t('totalAmount')}: </div>
               <div>
                 {Math.floor(totalAmount / 1000000) > 0
                   ? handleAmount
@@ -100,17 +102,17 @@ const Cart = (props) => {
               </div>
             </div>
             <div className={classes.actions}>
-              <button>XEM GIỎ HÀNG</button>
+              <button>{t('showCart')}</button>
               <button
                 onClick={() => {
                   dispatch(actionsCart.closeCart());
                   history.push('/checkout');
                 }}
               >
-                THANH TOÁN{' '}
+                {t('payment')}{' '}
               </button>
               <button onClick={() => dispatch(actionsCart.closeCart())}>
-                TIẾP TỤC MUA SẮM
+                {t('continueBuy')}
               </button>
             </div>
           </>

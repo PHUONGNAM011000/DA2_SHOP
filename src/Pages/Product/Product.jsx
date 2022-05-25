@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { actionsProduct } from '../../store/productSlice';
 import { actionsSize } from '../../store/sizeSlice';
+import { actionsHome } from '../../store/homeSlice';
 
 const Product = () => {
   const params = useParams();
@@ -19,6 +20,7 @@ const Product = () => {
   const product = productHome.filter((item) => item.id === +productId);
 
   useEffect(() => {
+    dispatch(actionsHome.setIsLogin());
     if (product.length > 0) {
       dispatch(actionsProduct.imageScaledChanged(product[0].images[0].url));
     }

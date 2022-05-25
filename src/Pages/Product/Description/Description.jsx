@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import classes from './Description.module.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { actionsProduct } from '../../../store/productSlice';
+import { useTranslation } from 'react-i18next';
 
 const Description = () => {
   const description = useSelector((state) => state.product.description);
   const info = useSelector((state) => state.product.info);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   return (
     <div className={classes.description}>
       <div className={classes.description_info}>
         <div className={classes['description_info--container']}>
-          <h3>Mô tả</h3>
+          <h3>{t('description')}</h3>
           <div
             className={classes.boxDecrease}
             onClick={() => dispatch(actionsProduct.changedDescription())}
@@ -28,52 +30,40 @@ const Description = () => {
         {!description && (
           <div className={classes['description_info--list']}>
             <div>
-              <h4>THÔNG TIN SẢN PHẨM</h4>
+              <h4>{t('infoPro')}</h4>
               <ul>
-                <li>Sản phẩm: Playsuit</li>
-                <li>Mã sản phẩm: ZA10</li>
-                <li>Xuất xứ: Việt Nam</li>
-                <li>Màu sắc: Hồng</li>
+                <li>{t('product')}: Playsuit</li>
+                <li>{t('origin')}: Việt Nam</li>
+                <li>{t('color')}: Hồng</li>
               </ul>
             </div>
             <div>
-              <h4>HƯỚNG DẪN CHỌN SIZE</h4>
+              <h4>{t('infoSize')}</h4>
               <ul>
-                <li>
-                  Size S: ngực 83 eo 64cm (eo đo trên rốn 2cm) mông 86-90cm
-                </li>
-                <li>
-                  Size M: ngực 86 eo 68cm (eo đo trên rốn 2cm) mông 90-94cm
-                </li>
+                <li>{t('sizeS')}</li>
+                <li>{t('sizeM')}</li>
               </ul>
-              <p>
-                Quý khách vui lòng inbox shop để được tư vấn, lựa chọn size phù
-                hợp
-              </p>
+              <p>{t('pleaseInfo')}</p>
             </div>
             <div>
-              <h4>HƯỚNG DẪN BẢO QUẢN</h4>
+              <h4>{t('storageInfo')}</h4>
               <ul>
-                <li>Ưu tiên giặt tay ở nhiệt độ nước không quá 30 độ C</li>
-                <li>Giặt máy ở chế độ êm dịu</li>
-                <li>Không nên ngâm quá lâu và giặt bằng chất tẩy mạnh</li>
-                <li>Màu sắc: Hồng</li>
+                <li>{t('storage1')}</li>
+                <li>{t('storage2')}</li>
+                <li>{t('storage3')}</li>
               </ul>
             </div>
             <div>
-              <h4>OVERSIZED SHOP CAM KẾT</h4>
+              <h4>{t('commitment')}</h4>
               <ul>
-                <li>Tư vấn hỗ trợ khách hàng nhiệt tình, chu đáo</li>
-                <li>Thời gian chuẩn bị hàng tối ưu nhất</li>
+                <li>{t('commit1')}</li>
+                <li>{t('commit2')}</li>
               </ul>
             </div>
             <div>
-              <h4>CHÍNH SÁCH MUA VÀ ĐỔI TRẢ HÀNG TẠI OVERSIZED</h4>
+              <h4>{t('purchase')}</h4>
               <ul>
-                <li>
-                  Đổi trả trong vòng 48h từ lúc nhận được sản phẩm, lưu ý sản
-                  phẩm yêu cầu còn nguyên tag để đổi trả
-                </li>
+                <li>{t('purchaseInfo')}</li>
               </ul>
             </div>
           </div>
@@ -81,7 +71,7 @@ const Description = () => {
       </div>
       <div className={classes.description_info}>
         <div className={classes['description_info--container']}>
-          <h3>Thông tin bổ sung</h3>
+          <h3>{t('addInfo')}</h3>
           {/* <div className={classes.increase}></div> */}
           <div
             className={classes.boxDecrease}
@@ -96,7 +86,7 @@ const Description = () => {
         </div>
         {!info && (
           <div className={classes.table}>
-            <div className={classes.size}>Size</div>
+            <div className={classes.size}>{t('size')}</div>
             <div className={classes.sizeResult}>S, M</div>
           </div>
         )}
